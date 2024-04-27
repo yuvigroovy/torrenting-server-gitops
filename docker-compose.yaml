@@ -1,5 +1,20 @@
 ---
 services:
+  qbittorrent:
+    container_name: qbittorrent
+    image: ghcr.io/hotio/qbittorrent
+    ports:
+      - "8080:8080"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Etc/UTC
+      - WEBUI_PORTS=8080/tcp,8080/udp
+    volumes:
+      - qbit-config:/config
+      - qbit-data:/data
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -25,7 +40,8 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - UMASK=002=
+      - UMASK=002
+      - TZ=Etc/UTC
     volumes:
       - radarr-config:/config
       - radarr-data:/data    
@@ -40,11 +56,18 @@ services:
         - sonarr-config:/config
         - sonarr-data:/mnt/NAS/Plex
     environment:
-        - PUID=1000
-        - PGID=1000
+        - PUID=111
+        - PGID=321
         - UMASK=002    
 
 volumes:
+  qbit-config:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/yuval/configs/qbittorrent
+      o: bind
+
   prowlarr-config:
     driver: local 
     driver_opts:
@@ -65,6 +88,13 @@ volumes:
         type: none
         device: /home/yuval/configs/sonarr
         o: bind  
+  
+  qbit-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/NAS/Plex/downloads
+      o: bind      
 
   radarr-data:
     driver: local 
