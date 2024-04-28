@@ -3,6 +3,8 @@ services:
   qbittorrent:
     container_name: qbittorrent
     image: ghcr.io/hotio/qbittorrent
+    networks:
+      - torrent-net
     ports:
       - "8080:8080"
     environment:
@@ -46,19 +48,21 @@ services:
       - radarr-config:/config
       - radarr-data:/data    
 
-  Sonarr:
+  sonarr:
+    container_name: sonarr
     image: ghcr.io/hotio/sonarr
     networks:
       - torrent-net
     ports:
-      - 8989:8989  
+      - "8989:8989"
+    environment:
+      - PUID=1000
+      - PGID=1010
+      - UMASK=002
+      - TZ=Etc/UTC
     volumes:
         - sonarr-config:/config
-        - sonarr-data:/mnt/NAS/Plex
-    environment:
-        - PUID=111
-        - PGID=1010
-        - UMASK=002    
+        - sonarr-data:/mnt/NAS/Plex 
 
 volumes:
   qbit-config:
