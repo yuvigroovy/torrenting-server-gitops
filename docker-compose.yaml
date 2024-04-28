@@ -6,8 +6,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=100
+      - PGID=1010
       - UMASK=002
       - TZ=Etc/UTC
       - WEBUI_PORTS=8080/tcp,8080/udp
@@ -21,8 +21,8 @@ services:
     networks:
       - torrent-net
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=101
+      - PGID=1010
       - TZ=Etc/UTC
     volumes:
       - prowlarr-config:/config
@@ -38,8 +38,8 @@ services:
     ports:
       - "7878:7878"
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=102
+      - PGID=1010
       - UMASK=002
       - TZ=Etc/UTC
     volumes:
@@ -56,8 +56,8 @@ services:
         - sonarr-config:/config
         - sonarr-data:/mnt/NAS/Plex
     environment:
-        - PUID=111
-        - PGID=321
+        - PUID=102
+        - PGID=1010
         - UMASK=002    
 
 volumes:
